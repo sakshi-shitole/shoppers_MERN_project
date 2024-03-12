@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './AddProduct.css'
 import upload_area from '../../assets/upload_area.svg'
 
+
 const AddProduct = () => {
 
     const [image, setImage] = useState(false);
@@ -29,14 +30,27 @@ const AddProduct = () => {
 
         await fetch("http://localhost:4000/upload", {
             method: 'POST',
-            header: {
+            headers: {
                 Accept: 'application/json',
             },
-            body: FormData,
-        }).then((resp) => resp.json()).then((data) => { responseData = data })
+            body: formData,
+        })
+
+            .then((resp) => resp.json()).then((data) => { responseData = data });
 
         if (responseData.success) {
             product.image = responseData.image_url;
+            console.log(product);
+            await fetch("http://localhost:4000/addproduct", {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(product),
+            }).then((resp) => resp.json()).then((data) => {
+                data.success ? alert("Product Added") : alert("Failed")
+            })
         }
     }
 
