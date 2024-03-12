@@ -236,7 +236,7 @@ const fetchUser = async (req, res, next) => {
             res.status(401).send({ errors: "Please authenticate using a valid token" })
         }
     }
-}
+};
 
 //Creating Endpoint for adding products in cartdata
 app.post('/addtocart', fetchUser, async (req, res) => {
