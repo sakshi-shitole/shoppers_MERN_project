@@ -10,7 +10,13 @@ const cors = require('cors');
 
 
 app.use(express.json());
-app.use(cors());
+app.use(cors(
+    {
+        origin: ['https://deploy-mern-1whq.vercel.app'],
+        methods: ['POST', 'GET'],
+        credentials: true
+    }
+));
 
 
 // Dtatabase connection with mongoDB
@@ -245,7 +251,7 @@ app.post('/addtocart', fetchUser, async (req, res) => {
     userData.cartData[req.body.itemId] += 1;
     await Users.findOneAndUpdate({ _id: req.user.id }, { cartData: userData.cartData })
     res.send("Added")
-})
+});
 
 //Creating endpoint to remove cartdata
 app.post('/removefromcart', fetchUser, async (req, res) => {
